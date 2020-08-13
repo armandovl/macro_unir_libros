@@ -30,9 +30,10 @@ If IsArray(X) Then
     For y = LBound(X) To UBound(X)
     Workbooks.Open X(y)
     b = ActiveWorkbook.Name
-    
-'Cambiando la primer hoja de donde va a extraer
-    Sheets("atributos").Select
+       
+'################## PRIMER PEGADO ##########################################   
+'Cambiando la primer hoja de donde va a extraer                    
+    Sheets("atributos").Select '*al ser la primer hoja solo usa sólo Sheets
     Range("A1:D100").Select 'cambiando el rango que va a extraer
     Selection.Copy
     
@@ -46,9 +47,10 @@ If IsArray(X) Then
 
 
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False ' pegado especial
-
+                                    
+'################## SEGUNDO PEGADO ##############################################################  
 'Cambiando la segunda hoja de donde va a extraer
-    Application.Workbooks(b).Worksheets("indicadores").Activate
+    Application.Workbooks(b).Worksheets("indicadores").Activate '*A diferencia de la primera parte aqui se indica que regrese al archivo b y siempre a partir de aquí
     Range("A1:G100").Select 'cambiando el rango que va a extraer
     Selection.Copy
 
@@ -61,7 +63,8 @@ If IsArray(X) Then
     Loop
           
     Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False ' pegado especial
-                                          
+                                                
+'########################## CUESTIONES FINALES ############################################                                         
     Workbooks(b).Application.CutCopyMode = False
     Workbooks(b).Close False
      
