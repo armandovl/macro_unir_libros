@@ -1,0 +1,64 @@
+Sub unirTodo()
+
+Application.ScreenUpdating = False
+
+Dim X As Variant
+
+X = Application.GetOpenFilename _
+    ("Excel Files (*.xlsx), *.xlsx*", 2, "Abrir archivos", , True)
+
+If IsArray(X) Then
+    Workbooks.Add
+           
+    ANNNNN = ActiveWorkbook.Name
+           
+    Sheets.Add after:=ActiveSheet
+    Sheets("Hoja2").Select
+    Sheets("Hoja2").Name = "nombreNuevaHoja"
+    
+    Sheets.Add after:=ActiveSheet
+    Sheets("Hoja3").Select
+    Sheets("Hoja3").Name = "nombreNuevaHoja2"
+  
+    For y = LBound(X) To UBound(X)
+    Workbooks.Open X(y)
+    b = ActiveWorkbook.Name
+
+    Sheets("nombreHojaACopiar").Select
+    Range("RangoHoja1").Select
+    Selection.Copy
+
+    Application.Workbooks(ANNNNN).Worksheets("nombreNuevaHoja").Activate
+    Range("A1").Select
+
+    Do While Not IsEmpty(ActiveCell)
+    ActiveCell.Offset(1, 0).Select
+    Loop
+
+
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False ' pegado especial
+
+    Application.Workbooks(b).Worksheets("nombreHojaACopiar2").Activate
+    Range("RangoHoja2").Select
+    Selection.Copy
+
+
+    Application.Workbooks(ANNNNN).Worksheets("nombreNuevaHoja2").Activate
+    Range("A1").Select
+            
+    Do While Not IsEmpty(ActiveCell)
+    ActiveCell.Offset(1, 0).Select
+    Loop
+          
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False ' pegado especial
+                                          
+    Workbooks(b).Application.CutCopyMode = False
+    Workbooks(b).Close False
+     
+    Next
+    
+End If
+Application.ScreenUpdating = False
+End Sub
+
+
